@@ -67,8 +67,6 @@ public class SearchController implements Serializable{
 	@GetMapping("/search")
 	@Cacheable("bookSearch")
 	public ModelAndView search(@RequestParam(required = true) String keyword, @RequestParam(value = "currentPage", required = false, defaultValue = "0") int currentPage) {
-		System.out.println("#### currentPage " + currentPage);
-		System.out.println("#### keyword " + keyword);
 		long startTime = System.currentTimeMillis();
 		ModelAndView mv =new ModelAndView();
 		Map<String, Object> map = searchService.bookSearch(keyword, currentPage);
@@ -84,7 +82,6 @@ public class SearchController implements Serializable{
 			
 		mv.setViewName("search/searchList");
 		long endTime = System.currentTimeMillis();
-		System.out.println("## 소요시간: {}ms" + (endTime - startTime));
 		return mv;
 	}
 	

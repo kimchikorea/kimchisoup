@@ -13,6 +13,9 @@ import javax.annotation.Resource;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -40,6 +43,8 @@ public class SearchServiceImpl implements SearchService {
 	private static Boolean fromKakao = true;
 	//사용한 검색 API
 	private static String searchFrom = "kakao";
+	
+	Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Resource
 	private SearchHistoryRepository searchHistoryRepository;
@@ -138,6 +143,7 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	// 검색결과 저장
+	@Async("threadPoolTaskExecutor")
 	public void saveSearchHistory(String keyword) {
 		SearchHistory searchHistory = new SearchHistory();
 		String uid = currentUserId();

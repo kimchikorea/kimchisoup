@@ -8,66 +8,40 @@
         th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
   <link rel="stylesheet" type="text/css" media="screen" href="../../css/common.css" th:href="@{/css/common.css}" />
   
-  <script type="text/javascript" language="javascript">
-			
-
-		var duplChk = 0;
-		$("#2chk").click(function() {
-			$("#userid").focus();
-	    });
-		
-		
-		//idck 버튼을 클릭했을 때 
-	    $("#chk").click(function() {
-	    	
-	    	alert($("#uid").val());
-	    	//userid 를 param.
-	        var userid =  $("#uid").val(); 
-	    	
-	    	obj.uid = $("#uid").val();
-	    	obj.uemail = $("#uemail").val();
-	    	obj.upw = $("#upw").val();
-
-	    	var jsonData = JSON.stringify(obj);
-	        
-	        $.ajax({
-	            async: false,
-	            type : 'POST',
-	            data : jsonData,
-	            url : "/idCheck",
-	            dataType : "json",
-	            contentType: "application/json; charset=UTF-8",
-	            success : function(data) {
-	            	console.log(data.cnt);
-	                if (data.cnt > 0) {
-
-	                    alert("아이디가 존재합니다. 다른 아이디를 입력해주세요.");
-	                    //아이디가 존제할 경우 빨깡으로 , 아니면 파랑으로 처리하는 디자인
-	                    //$("#divInputId").addClass("has-error")
-	                    //$("#divInputId").removeClass("has-success")
-	                    $("#userid").focus();
-	                    
-	                
-	                } else {
-	                    alert("회원가입 되었습니다. ID : " + $("#uid").val());
-	                    window.location.href = "/";
-	                    
-	                }
-	            },
-	            error : function(error) {
-	                
-	                alert("error : " + error);
-	            }
-	        }); 
-	    });
-		
-
-	});
-
+  <script type="text/javascript">  
+ $(document).ready(function () {	
+	 
+	 
+	    // 아이디 유효성 검사(1 = 중복 / 0 != 중복)
+		$("#uid").blur(function() {
+			// id = "id_reg" / name = "userId"
+			var uid = $("#uid").val();
+	       // alert("udi :: " + uid);
+			$.ajax({
+				async: false,
+				url : '/idCheck?uid='+ uid,
+				cache 	: false,
+				type : 'get',
+				success : function(data) {
+					console.log("1 = 중복o / 0 = 중복x : "+ data);							
+					
+					if (data == 1) {
+							// 1 : 아이디가 중복되는 문구
+							$("#id_check").text("이미 사용중인 아이디입니다. ");
+							$("#id_check").css("color", "red");
+							$("#reg_submit").attr("disabled", true);
+						} 
+					}, error : function() {
+							console.log("실패");
+					}
+				});
+			});
+	 });
 </script>
-  
 </head>
 <body>
+
+
              
 <div id="page-wrapper" layout:fragment="content">  
   <div class="container" style="margin-top: 100px;">
@@ -78,11 +52,11 @@
             <h3 class="panel-title">Please sign up</h3>
           </div>
           <div class="panel-body">
-           <form th:action="@{/member}" method="post" commandName="member"> 
+           <form th:action="@{/member}" method="post" > 
               <fieldset>
                 <div class="form-group">
                   <input type="text" name="uid" id="uid" class="form-control" placeholder="User Id" required="required" autofocus="autofocus" /> 
-
+                  <div class="check_font" id="id_check"></div>
                 </div>
                 <div class="form-group">
                   <input type="email" name="uemail" id="uemail" class="form-control" placeholder="E-Mail" required="required" autofocus="autofocus" />
@@ -90,7 +64,7 @@
                 <div class="form-group">
                   <input type="password" name="upw" id="upw" class="form-control" placeholder="Password" required="required" />
                 </div>
-                <button class="btn btn-lg btn-primary btn-block"  id="chk">Registration</button>    
+                <button class="btn btn-lg btn-primary btn-block"  id="reg_submit">Registration</button>    
               </fieldset>
             </form>
           </div>

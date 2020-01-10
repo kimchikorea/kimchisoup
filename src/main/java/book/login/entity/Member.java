@@ -42,7 +42,7 @@ public class Member {
 	@Column(nullable = false, length=200)
 	private String upw;
 	
-	@Column(nullable = false, unique = true, length=50)
+	@Column(nullable = false, length=50)
 	private String uemail;
 	
 	@Builder

@@ -38,7 +38,7 @@ public class SearchController implements Serializable{
 	// 내 검색기록 조회
 	@GetMapping("/search/myhistory") 
 	public ModelAndView getMySearchHistory() {
-		
+		System.out.println("$$$$$$$");
 		ModelAndView mv =new ModelAndView();
 		List<SearchHistory> myhistory = searchService.findByUidOrderByRegdateDesc();
 	    
@@ -63,11 +63,10 @@ public class SearchController implements Serializable{
 		
 	}
 	
-	// 책 검색 : 캐싱처리 - 1시간마 삭제
+	// 책 검색 : 캐싱처리 - 1시간마다 삭제
 	@GetMapping("/search")
 	@Cacheable("bookSearch")
 	public ModelAndView search(@RequestParam(required = true) String keyword, @RequestParam(value = "currentPage", required = false, defaultValue = "0") int currentPage) {
-		long startTime = System.currentTimeMillis();
 		ModelAndView mv =new ModelAndView();
 		Map<String, Object> map = searchService.bookSearch(keyword, currentPage);
 		
@@ -81,7 +80,6 @@ public class SearchController implements Serializable{
 		mv.addObject("lastPageNum", map.get("lastPageNum")); 
 			
 		mv.setViewName("search/searchList");
-		long endTime = System.currentTimeMillis();
 		return mv;
 	}
 	

@@ -1,3 +1,4 @@
+/Users/nowjean/kakaoBank/book/src/main/java/book/mainController.java
 /Users/nowjean/kakaoBank/book/src/main/java/book/config/WebSecurityConfig.java
 /Users/nowjean/kakaoBank/book/src/main/java/book/login/service/SecurityMemberService.java
 /Users/nowjean/kakaoBank/book/src/main/java/book/config/CacheConfig.java
@@ -16,4 +17,3 @@
 /Users/nowjean/kakaoBank/book/src/main/java/book/login/entity/Member.java
 /Users/nowjean/kakaoBank/book/src/main/java/book/search/dao/SearchHistoryRepository.java
 /Users/nowjean/kakaoBank/book/src/main/java/book/search/service/impl/SearchServiceImpl.java
-/Users/nowjean/kakaoBank/book/src/main/java/book/sampleController.java

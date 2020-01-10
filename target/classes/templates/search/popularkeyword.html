@@ -54,7 +54,7 @@
                                          <td th:text="${board.updatedDate} ? ${#temporals.format(board.updatedDate,'yyyy-MM-dd HH:mm')} : ${board.updatedDate}"></td> -->
 								</tr>
 								<tr th:unless="${#lists.size(popularKeywords)} > 0">
-								    <td colspan="2" align="center">No Data.</td>
+								    <td colspan="3" align="center">No Data.</td>
 								</tr>
 							</tbody>
 						</table>

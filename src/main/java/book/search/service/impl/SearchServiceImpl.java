@@ -81,7 +81,6 @@ public class SearchServiceImpl implements SearchService {
 			queryString = "?query=" + URLEncoder.encode(keyword, "UTF-8");
 			apiURL = apiURL + queryString;
 			apiURL = apiURL +"&page=" + currentPage;
-			System.out.println(apiURL);
 			url = new URL(apiURL);
 			con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");

@@ -38,7 +38,6 @@ public class SearchController implements Serializable{
 	// 내 검색기록 조회
 	@GetMapping("/search/myhistory") 
 	public ModelAndView getMySearchHistory() {
-		System.out.println("$$$$$$$");
 		ModelAndView mv =new ModelAndView();
 		List<SearchHistory> myhistory = searchService.findByUidOrderByRegdateDesc();
 	    

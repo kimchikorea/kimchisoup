@@ -10,11 +10,11 @@ book/login/entity/Member.class
 book/search/entity/PopularKeword.class
 book/config/SpringAsyncConfig$HandlingExecutor.class
 book/login/entity/SecurityMember.class
-book/sampleController.class
 book/login/entity/MemberRole.class
 book/config/SpringAsyncConfig$HandlingExecutor$1.class
 book/config/SpringAsyncConfig.class
 book/config/WebSecurityConfig.class
+book/mainController.class
 book/login/controller/MemberController.class
 book/config/CacheConfig.class
 book/search/controller/SearchController.class

@@ -2,7 +2,6 @@
 /Users/nowjean/kakaoBank/book/src/main/java/book/login/service/SecurityMemberService.java
 /Users/nowjean/kakaoBank/book/src/main/java/book/config/CacheConfig.java
 /Users/nowjean/kakaoBank/book/src/main/java/book/search/service/SearchService.java
-/Users/nowjean/kakaoBank/book/src/main/java/book/MemberRepoTest.java
 /Users/nowjean/kakaoBank/book/src/main/java/book/search/controller/SearchController.java
 /Users/nowjean/kakaoBank/book/src/main/java/book/login/controller/LoginCheckController.java
 /Users/nowjean/kakaoBank/book/src/main/java/book/search/entity/PopularKeword.java

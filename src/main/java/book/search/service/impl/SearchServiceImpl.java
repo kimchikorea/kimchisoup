@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -62,14 +63,8 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
+	@Cacheable("bookSearch")
 	public Map<String, Object> bookSearch(String keyword, int currentPage) {
-
-		// currentPage가 0일 경우, 검색해서 들어온 로직이기 때문에 검색결과 저장.
-		// 그 이외의 경우는 페이지 검색으로 검색결과에 저장하지는 않
-		if(currentPage == 0) {
-			saveSearchHistory(keyword);
-			currentPage = 1;
-		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -139,24 +134,6 @@ public class SearchServiceImpl implements SearchService {
 
 		
 		return map;
-	}
-
-	// 검색결과 저장
-	@Async("threadPoolTaskExecutor")
-	public void saveSearchHistory(String keyword) {
-		SearchHistory searchHistory = new SearchHistory();
-		String uid = currentUserId();
-		searchHistory.setUid(uid);
-		searchHistory.setKeyword(keyword);
-		searchHistoryRepository.save(searchHistory);
-
-	}
-
-	// 현재사용자 ID값 가져오기
-	public static String currentUserId() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User) authentication.getPrincipal();
-		return user.getUsername();
 	}
 
 	public void searchNaverBookAPI(String queryString, int currentPage) {
@@ -240,5 +217,13 @@ public class SearchServiceImpl implements SearchService {
     	
         return map;
     }
+
+    //현재사용자 ID값 가져오기
+	@Override
+	public String currentUserId() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User) authentication.getPrincipal();
+		return user.getUsername();
+	}
 
 }

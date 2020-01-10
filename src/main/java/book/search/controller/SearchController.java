@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,9 +65,17 @@ public class SearchController implements Serializable{
 	
 	// 책 검색 : 캐싱처리 - 1시간마다 삭제
 	@GetMapping("/search")
-	@Cacheable("bookSearch")
 	public ModelAndView search(@RequestParam(required = true) String keyword, @RequestParam(value = "currentPage", required = false, defaultValue = "0") int currentPage) {
+		
 		ModelAndView mv =new ModelAndView();
+		
+		// currentPage가 0일 경우, 검색해서 들어온 로직이기 때문에 검색결과 저장.
+	    // 그 이외의 경우는 페이지 검색으로 검색결과에 저장하지는 않
+		if(currentPage == 0) {
+			saveSearchHistory(keyword);
+			currentPage = 1;
+		}
+		
 		Map<String, Object> map = searchService.bookSearch(keyword, currentPage);
 		
 		mv.addObject("bookList", map.get("bookList"));
@@ -81,6 +90,17 @@ public class SearchController implements Serializable{
 		mv.setViewName("search/searchList");
 		return mv;
 	}
+	
+	// 검색결과 저장
+		@Async("threadPoolTaskExecutor")
+		public void saveSearchHistory(String keyword) {
+			SearchHistory searchHistory = new SearchHistory();
+			String uid = searchService.currentUserId();
+			searchHistory.setUid(uid);
+			searchHistory.setKeyword(keyword);
+			searchHistoryRepository.save(searchHistory);
+
+		}
 	
 
 }
